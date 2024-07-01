@@ -11,6 +11,7 @@ import { Task } from '../types/task';
 import { DUMMYTASKS } from './dummyTasks';
 import { AddtaskComponent } from './addtask/addtask.component';
 import { v4 as uuidv4 } from 'uuid';
+import { TaskService } from './task.service';
 
 @Component({
   selector: 'app-tasks',
@@ -20,15 +21,16 @@ import { v4 as uuidv4 } from 'uuid';
   imports: [TaskComponent, AddtaskComponent],
 })
 export class TasksComponent {
+  constructor(private taskService: TaskService) {}
   @Input({ required: true }) userId!: string;
   @Input({ required: true }) userName!: string;
-  tasks: Task[] = DUMMYTASKS;
+  // tasks: Task[] = DUMMYTASKS;
   newTask: boolean = false;
   get selectedUserTasks() {
-    return this.tasks.filter((u) => u.userId === this.userId);
+    return this.taskService.getUserTasks(this.userId);
   }
   onCompleteTask(id: string) {
-    this.tasks = this.tasks.filter((t) => t.id !== id);
+    this.taskService.removeTask(id);
   }
   addNewTask() {
     this.newTask = true;
@@ -40,6 +42,6 @@ export class TasksComponent {
     this.newTask = false;
     task.id = uuidv4();
     // console.log('TASKS:', task);
-    this.tasks.push(task);
+    this.taskService.addTaskToUser(task);
   }
 }
