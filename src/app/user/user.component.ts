@@ -9,26 +9,18 @@ import {
 } from '@angular/core';
 import { DUMMY_USERS } from '../dummy-users';
 import { User } from '../types/user';
-import { CardComponent } from "../shared/card/card.component";
+import { CardComponent } from '../shared/card/card.component';
 
 const randomIndex = Math.floor(DUMMY_USERS.length * Math.random());
 
 @Component({
-    selector: 'app-user',
-    standalone: true,
-    templateUrl: './user.component.html',
-    styleUrl: './user.component.css',
-    imports: [CardComponent]
+  selector: 'app-user',
+  templateUrl: './user.component.html',
+  styleUrl: './user.component.css',
 })
 export class UserComponent {
   @Input({ required: true }) selected!: boolean;
   @Input({ required: true }) user!: User;
-  // @Input({ required: true }) id!: string;
-  // @Input({ required: true }) avatar!: string;
-  // @Input({ required: true }) name!: string;
-  // avatar = input.required<string>();
-  // name = input.required<string>();
-  // select = output<string>();
 
   @Output() select = new EventEmitter<string>();
 
